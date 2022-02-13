@@ -11,6 +11,9 @@ def cloud_build_notifier(event, context):
     build = json.loads(build_message)
     print(build)
 
+    if build['status'] == 'WORKING':
+        return
+
     color = {
         "SUCCESS": "#28a745",
         "FAILURE": "#cb2431"
