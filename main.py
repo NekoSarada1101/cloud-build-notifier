@@ -11,7 +11,7 @@ def cloud_build_notifier(event, context):
     build = json.loads(build_message)
     print(build)
 
-    if build['status'] == 'WORKING':
+    if build['status'] == 'WORKING' or build['status'] == 'QUEUED':
         return
 
     color = {
