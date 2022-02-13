@@ -32,19 +32,23 @@ def cloud_build_notifier(event, context):
                         "fields": [
                             {
                                 "type": "mrkdwn",
-                                "text": "*status:*\n{}".format(build['status'])
+                                "text": "*Status:*\n{}".format(build['status'])
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*start:*\n{}".format(str(start_time))
+                                "text": "*Start:*\n{}".format(str(start_time))
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*id:*\n{}".format(build['id'])
+                                "text": "*Trigger Name:*\n{}".format(build['substitutions']['TRIGGER_NAME'])
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*finish:*\n{}".format(str(finish_time))
+                                "text": "*Finish:*\n{}".format(str(finish_time))
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*ID:*\n{}".format(build['id'])
                             },
                         ]
                     },
