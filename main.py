@@ -51,15 +51,24 @@ def cloud_build_notifier(event, context):
                     {
                         "type": "actions",
                         "elements": [
-                                {
-                                    "type": "button",
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "View log"
-                                    },
-                                    "style": "primary",
-                                    "url": build['logUrl'],
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "View log"
                                 },
+                                "style": "primary",
+                                "url": build['logUrl'],
+                            },
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "View repo"
+                                },
+                                "style": "default",
+                                "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME']),
+                            },
                         ]
                     }
                 ]
