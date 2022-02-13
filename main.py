@@ -62,7 +62,7 @@ def cloud_build_notifier(event, context):
                                     "text": "View log"
                                 },
                                 "style": "primary",
-                                "url": build['logUrl'],
+                                    "url": build['logUrl']
                             },
                             {
                                 "type": "button",
@@ -70,9 +70,8 @@ def cloud_build_notifier(event, context):
                                     "type": "plain_text",
                                     "text": "View repo"
                                 },
-                                "style": "default",
-                                "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME']),
-                            },
+                                    "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME'])
+                                }
                         ]
                     }
                 ]
