@@ -22,62 +22,67 @@ def cloud_build_notifier(event, context):
     start_time = datetime.strptime(build['startTime'][:build['startTime'].find('.')], '%Y-%m-%dT%H:%M:%S') + timedelta(hours=9)
     finish_time = datetime.strptime(build['finishTime'][:build['finishTime'].find('.')], '%Y-%m-%dT%H:%M:%S') + timedelta(hours=9)
 
-    data = {
-        "attachments": [
-            {
-                "color": color[build['status']],
-                "blocks": [
-                    {
-                        "type": "section",
-                        "fields": [
-                            {
-                                "type": "mrkdwn",
-                                "text": "*Status:*\n{}".format(build['status'])
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": "*Start:*\n{}".format(str(start_time))
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": "*Trigger Name:*\n{}".format(build['substitutions']['TRIGGER_NAME'])
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": "*Finish:*\n{}".format(str(finish_time))
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": "*ID:*\n{}".format(build['id'])
-                            },
-                        ]
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "View log"
+    try:
+        data = {
+            "attachments": [
+                {
+                    "color": color[build['status']],
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "fields": [
+                                {
+                                    "type": "mrkdwn",
+                                    "text": "*Status:*\n{}".format(build['status'])
                                 },
-                                "style": "primary",
+                                {
+                                    "type": "mrkdwn",
+                                    "text": "*Start:*\n{}".format(str(start_time))
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": "*Trigger Name:*\n{}".format(build['substitutions']['TRIGGER_NAME'])
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": "*Finish:*\n{}".format(str(finish_time))
+                                },
+                                {
+                                    "type": "mrkdwn",
+                                    "text": "*ID:*\n{}".format(build['id'])
+                                },
+                            ]
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "View log"
+                                    },
+                                    "style": "primary",
                                     "url": build['logUrl']
-                            },
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "View repo"
                                 },
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "View repo"
+                                    },
                                     "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME'])
                                 }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    except KeyError as e:
+        print(e)
+
+    print(data)
     json_data = json.dumps(data).encode("utf-8")
     response = requests.post(SLACK_INCOMING_WEBHOOK_URL, json_data)
     print(response)
