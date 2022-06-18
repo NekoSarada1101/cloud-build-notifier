@@ -26,6 +26,7 @@ def cloud_build_notifier(event, context):
     start_time = datetime.strptime(build['startTime'][:build['startTime'].find('.')], '%Y-%m-%dT%H:%M:%S') + timedelta(hours=9)
     finish_time = datetime.strptime(build['finishTime'][:build['finishTime'].find('.')], '%Y-%m-%dT%H:%M:%S') + timedelta(hours=9)
 
+    data = None
     try:
         data = {
             "attachments": [
