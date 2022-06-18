@@ -89,7 +89,7 @@ def cloud_build_notifier(event, context):
         print(e)
 
     print('message={}'.format(data))
-    response = client.chat_postMessage(channel='#gcp_notice',
+    response = client.chat_postMessage(channel='C01P7T50T39',
                                        attachments=data)
     print('response={}'.format(response))
     print('***** end cloud build notifier *****')
