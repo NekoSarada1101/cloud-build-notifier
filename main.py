@@ -12,9 +12,10 @@ client = WebClient(SLACK_BOT_USER_TOKEN)
 
 
 def cloud_build_notifier(event, context):
+    print('***** start cloud build notifier *****')
     build_message = base64.b64decode(event['data']).decode('utf-8')
     build = json.loads(build_message)
-    print(build)
+    print('build_info={}'.format(build))
 
     if build['status'] == 'WORKING' or build['status'] == 'QUEUED':
         return
@@ -43,19 +44,19 @@ def cloud_build_notifier(event, context):
                             {
                                     "type": "mrkdwn",
                                     "text": "*Start:*\n{}".format(str(start_time))
-                                },
+                            },
                             {
                                     "type": "mrkdwn",
                                     "text": "*Trigger Name:*\n{}".format(build['substitutions']['TRIGGER_NAME'])
-                                },
+                            },
                             {
                                     "type": "mrkdwn",
                                     "text": "*Finish:*\n{}".format(str(finish_time))
-                                },
+                            },
                             {
                                     "type": "mrkdwn",
                                     "text": "*ID:*\n{}".format(build['id'])
-                                },
+                            },
                         ]
                     },
                     {
@@ -77,7 +78,7 @@ def cloud_build_notifier(event, context):
                                         "text": "View repo"
                                     },
                                     "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME'])
-                                }
+                            }
                         ]
                     }
                 ]
@@ -87,10 +88,11 @@ def cloud_build_notifier(event, context):
     except KeyError as e:
         print(e)
 
-    print(data)
+    print('message={}'.format(data))
     response = client.chat_postMessage(channel='#gcp_notice',
                                        attachments=data)
-    print(response)
+    print('response={}'.format(response))
+    print('***** end cloud build notifier *****')
 
 
 if __name__ == '__main__':
