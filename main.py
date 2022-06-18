@@ -29,39 +29,38 @@ def cloud_build_notifier(event, context):
 
     data = None
     try:
-        data = {
-            "attachments": [
-                {
-                    "color": color[build['status']],
-                    "blocks": [
-                        {
-                            "type": "section",
-                            "fields": [
+        data = [
+            {
+                "color": color[build['status']],
+                "blocks": [
+                    {
+                        "type": "section",
+                        "fields": [
                                 {
                                     "type": "mrkdwn",
                                     "text": "*Status:*\n{}".format(build['status'])
                                 },
-                                {
+                            {
                                     "type": "mrkdwn",
                                     "text": "*Start:*\n{}".format(str(start_time))
                                 },
-                                {
+                            {
                                     "type": "mrkdwn",
                                     "text": "*Trigger Name:*\n{}".format(build['substitutions']['TRIGGER_NAME'])
                                 },
-                                {
+                            {
                                     "type": "mrkdwn",
                                     "text": "*Finish:*\n{}".format(str(finish_time))
                                 },
-                                {
+                            {
                                     "type": "mrkdwn",
                                     "text": "*ID:*\n{}".format(build['id'])
                                 },
-                            ]
-                        },
-                        {
-                            "type": "actions",
-                            "elements": [
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
                                 {
                                     "type": "button",
                                     "text": {
@@ -71,7 +70,7 @@ def cloud_build_notifier(event, context):
                                     "style": "primary",
                                     "url": build['logUrl']
                                 },
-                                {
+                            {
                                     "type": "button",
                                     "text": {
                                         "type": "plain_text",
@@ -79,12 +78,12 @@ def cloud_build_notifier(event, context):
                                     },
                                     "url": "https://github.com/NekoSarada1101/{}".format(build['substitutions']['REPO_NAME'])
                                 }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+                        ]
+                    }
+                ]
+            }
+        ]
+
     except KeyError as e:
         print(e)
 
