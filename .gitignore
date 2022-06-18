@@ -189,4 +189,4 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # custom
-settings.py
+*credentials.json
