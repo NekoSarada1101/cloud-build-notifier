@@ -1,0 +1,101 @@
+{
+    "id": "b073115e-a95b-4092-abe6-54dcddd84707",
+    "status": "SUCCESS",
+    "source": {},
+    "createTime": "2022-02-13T12:15:22.018559462Z",
+    "startTime": "2022-02-13T12:15:22.773836446Z",
+    "finishTime": "2022-02-13T12:17:56.688240Z",
+    "results": {
+        "buildStepImages": [
+            "sha256:71120a30c110a3df064f9ceffcb6e438dfdb202115bb6a931fbcb55b7931dcdb",
+            ""
+        ],
+        "buildStepOutputs": [
+            "",
+            ""
+        ]
+    },
+    "steps": [
+        {
+            "name": "gcr.io/cloud-builders/gcloud",
+            "args": [
+                "kms",
+                "decrypt",
+                "--ciphertext-file\u003dsettings.py.enc",
+                "--plaintext-file\u003dsettings.py",
+                "--location\u003dglobal",
+                "--keyring\u003dmy-keyring",
+                "--key\u003dsettings"
+            ],
+            "timing": {
+                "startTime": "2022-02-13T12:15:25.527968838Z",
+                "endTime": "2022-02-13T12:15:28.730366270Z"
+            },
+            "status": "SUCCESS",
+            "pullTiming": {
+                "startTime": "2022-02-13T12:15:25.527968838Z",
+                "endTime": "2022-02-13T12:15:25.530215411Z"
+            }
+        },
+        {
+            "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+            "args": [
+                "gcloud",
+                "functions",
+                "deploy",
+                "clouds-build-notifier",
+                "--region\u003dasia-northeast1",
+                "--source\u003d.",
+                "--trigger-topic\u003dcloud-builds",
+                "--runtime\u003dpython39",
+                "--entry-point\u003dcloud_build_notifier"
+            ],
+            "timing": {
+                "startTime": "2022-02-13T12:15:28.730519647Z",
+                "endTime": "2022-02-13T12:17:55.723005337Z"
+            },
+            "status": "SUCCESS",
+            "pullTiming": {
+                "startTime": "2022-02-13T12:15:28.730519647Z",
+                "endTime": "2022-02-13T12:16:36.571862752Z"
+            }
+        }
+    ],
+    "timeout": "600s",
+    "projectId": "slackbot-288310",
+    "logsBucket": "gs://831232013080.cloudbuild-logs.googleusercontent.com",
+    "sourceProvenance": {},
+    "buildTriggerId": "4bb0450f-df4e-4021-a0f7-18a4e5f0ea96",
+    "options": {
+        "substitutionOption": "ALLOW_LOOSE",
+        "logging": "LEGACY",
+        "dynamicSubstitutions": true,
+        "pool": {}
+    },
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/b073115e-a95b-4092-abe6-54dcddd84707?project\u003d831232013080",
+    "substitutions": {
+        "COMMIT_SHA": "5b6e16ab45f24bcb2753cc1a26f4fc121d28cd5e",
+        "SHORT_SHA": "5b6e16a",
+        "BRANCH_NAME": "main",
+        "REF_NAME": "main",
+        "TRIGGER_NAME": "cloud-build-notifier",
+        "TRIGGER_BUILD_CONFIG_PATH": "cloudbuild.yml",
+        "REPO_NAME": "cloud-build-notifier",
+        "REVISION_ID": "5b6e16ab45f24bcb2753cc1a26f4fc121d28cd5e"
+    },
+    "tags": [
+        "trigger-4bb0450f-df4e-4021-a0f7-18a4e5f0ea96"
+    ],
+    "timing": {
+        "FETCHSOURCE": {
+            "startTime": "2022-02-13T12:15:23.628342474Z",
+            "endTime": "2022-02-13T12:15:24.983956594Z"
+        },
+        "BUILD": {
+            "startTime": "2022-02-13T12:15:24.984032616Z",
+            "endTime": "2022-02-13T12:17:55.723104099Z"
+        }
+    },
+    "queueTtl": "3600s",
+    "name": "projects/831232013080/locations/global/builds/b073115e-a95b-4092-abe6-54dcddd84707"
+}
