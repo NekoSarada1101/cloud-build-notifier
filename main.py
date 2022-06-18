@@ -5,7 +5,7 @@ from slack_sdk import WebClient
 from google.cloud import secretmanager
 
 secret_client = secretmanager.SecretManagerServiceClient()
-SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request={'name': 'projects/slackbot-288310/secrets/SLACK_BOT_USER_OAUTH_TOKEN/versions/1'}).payload.data
+SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request={'name': 'projects/slackbot-288310/secrets/SLACK_BOT_USER_OAUTH_TOKEN/versions/1'}).payload.data.decode('utf-8')
 
 client = WebClient(SLACK_BOT_USER_TOKEN)
 
