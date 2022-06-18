@@ -88,11 +88,9 @@ def cloud_build_notifier(event, context):
         print(e)
 
     print(data)
-    json_data = json.dumps(data).encode("utf-8")
     response = client.chat_postMessage(channel='#gcp_notice',
-                                       attachments=json_data)
+                                       attachments=data)
     print(response)
-    print(response.text)
 
 
 if __name__ == '__main__':
