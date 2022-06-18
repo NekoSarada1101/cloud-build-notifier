@@ -1,9 +1,13 @@
 import base64
 import json
-from tracemalloc import start
-import requests
 from datetime import datetime, timedelta
-from settings import SLACK_INCOMING_WEBHOOK_URL
+from slack_sdk import WebClient
+from google.cloud import secretmanager
+
+secret_client = secretmanager.SecretManagerServiceClient()
+SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request='projects/slackbot-288310/secrets/SLACK_BOT_USER_OAUTH_TOKEN/versions/1')
+
+client = WebClient(SLACK_BOT_USER_TOKEN)
 
 
 def cloud_build_notifier(event, context):
@@ -84,7 +88,8 @@ def cloud_build_notifier(event, context):
 
     print(data)
     json_data = json.dumps(data).encode("utf-8")
-    response = requests.post(SLACK_INCOMING_WEBHOOK_URL, json_data)
+    response = client.chat_postMessage(channel='#gcp_notice',
+                                       attachments=json_data)
     print(response)
     print(response.text)
 
