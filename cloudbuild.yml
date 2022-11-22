@@ -1,13 +1,23 @@
 steps:
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
     args:
-      - gcloud
-      - functions
-      - deploy
-      - clouds-build-notifier
-      - --region=asia-northeast1
-      - --source=.
-      - --trigger-topic=cloud-builds
-      - --runtime=python39
-      - --entry-point=cloud_build_notifier
-      - --service-account=cloud-build-notifier@slackbot-288310.iam.gserviceaccount.com
+    [
+      "functions",
+      "deploy",
+      "clouds-build-notifier",
+      "--region",
+      "asia-northeast1",
+      "--source",
+      ".",
+      "--trigger-topic",
+      "cloud-builds",
+      "--runtime",
+      "python39",
+      "--entry-point",
+      "cloud_build_notifier",
+      "--service-account",
+      "cloud-build-notifier@slackbot-288310.iam.gserviceaccount.com",
+      "--update-env-vars",
+      "CHANNEL_ID=${_CHANNEL_ID}"
+    ]
