@@ -2,6 +2,7 @@ import base64
 import json
 import logging
 import os
+import sys
 from datetime import datetime, timedelta
 
 from google.cloud import secretmanager
