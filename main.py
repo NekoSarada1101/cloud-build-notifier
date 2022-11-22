@@ -9,7 +9,7 @@ from slack_sdk import WebClient
 
 # constant ============================================
 secret_client = secretmanager.SecretManagerServiceClient()
-SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request={'name': 'projects/slackbot-288310/secrets/SECRETARY_BOT_V2_SLACK_BOT_TOKEN'})
+SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request={'name': 'projects/slackbot-288310/secrets/SECRETARY_BOT_V2_SLACK_BOT_TOKEN/versions/latest'}).payload.data.decode('UTF-8')
 
 client = WebClient(SLACK_BOT_USER_TOKEN)
 
