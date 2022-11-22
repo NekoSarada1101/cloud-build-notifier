@@ -5,15 +5,12 @@ import os
 import sys
 from datetime import datetime, timedelta
 
+import requests
 from google.cloud import secretmanager
-from slack_sdk import WebClient
 
 # constant ============================================
 secret_client = secretmanager.SecretManagerServiceClient()
 SLACK_BOT_USER_TOKEN = secret_client.access_secret_version(request={'name': 'projects/slackbot-288310/secrets/SECRETARY_BOT_V2_SLACK_BOT_TOKEN/versions/latest'}).payload.data.decode('UTF-8')
-
-client = WebClient(SLACK_BOT_USER_TOKEN)
-
 CHANNEL_ID = os.environ.get('CHANNEL_ID')
 
 
@@ -75,19 +72,19 @@ def cloud_build_notifier(event, context):
                             {
                                     'type': 'mrkdwn',
                                     'text': '*Start:*\n{}'.format(str(start_time))
-                                    },
+                                },
                             {
                                     'type': 'mrkdwn',
                                     'text': '*Trigger Name:*\n{}'.format(build['substitutions']['TRIGGER_NAME'])
-                                    },
+                                },
                             {
                                     'type': 'mrkdwn',
                                     'text': '*Finish:*\n{}'.format(str(finish_time))
-                                    },
+                                },
                             {
                                     'type': 'mrkdwn',
                                     'text': '*ID:*\n{}'.format(build['id'])
-                                    },
+                                },
                         ]
                     },
                     {
@@ -109,18 +106,28 @@ def cloud_build_notifier(event, context):
                                         'text': 'View repo'
                                     },
                                     'url': 'https://github.com/NekoSarada1101/{}'.format(build['substitutions']['REPO_NAME'])
-                                    }
+                                }
                         ]
                     }
                 ]
             }
         ]
 
-    except KeyError as e:
+    except Exception as e:
         logger.error(e)
 
-    logger.info('data={}'.format(data))
-    response = client.chat_postMessage(channel=CHANNEL_ID, attachments=data, username='Cloud Build Notifier', icon_emoji=':cloud_build:')
+    logger.info('----- POST slack api send chat message -----')
+    payload = {
+        'token': SLACK_BOT_USER_TOKEN,
+        'channel': CHANNEL_ID,
+        'text': 'Cloud Build Notice',
+        'attachments': json.dumps(data),
+        'username': 'Cloud Build Notifier',
+        'icon_emoji': ':cloud_build:',
+    }
+    logger.info('payload={}'.format(payload))
+
+    response = requests.post('https://slack.com/api/chat.postMessage', data=payload)
     logger.info('response={}'.format(response.text))
     logger.info('===== end cloud build notifier =====')
 

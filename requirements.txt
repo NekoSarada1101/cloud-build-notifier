@@ -1,2 +1,2 @@
-slack-sdk
 google-cloud-secret-manager
+requests
