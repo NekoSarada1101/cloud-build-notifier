@@ -120,7 +120,7 @@ def cloud_build_notifier(event, context):
     payload = {
         'token': SLACK_BOT_USER_TOKEN,
         'channel': CHANNEL_ID,
-        'text': 'Cloud Build Notice',
+        'text': 'Cloud Build Notice : {}'.format(build['status']),
         'attachments': json.dumps(data),
         'username': 'Cloud Build Notifier',
         'icon_emoji': ':cloud_build:',
